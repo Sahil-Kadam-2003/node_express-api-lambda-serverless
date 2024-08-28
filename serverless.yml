@@ -1,0 +1,16 @@
+service: aws-node-express-api-project 
+frameworkVersion: '2.72.4'
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+
+functions:
+  api:
+    handler: index.handler
+    name: express-api-function
+    events:
+      - httpApi:
+          path: /hello
+          method: GET
