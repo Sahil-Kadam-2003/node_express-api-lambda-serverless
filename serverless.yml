@@ -20,3 +20,15 @@ functions:
           method: GET
           private: true
 
+      - http:
+          path: /hello-One
+          method: POST
+          private: true
+
+      - http:
+          path: /hello-Two
+          method: PUT
+          private: true
+
+
+  

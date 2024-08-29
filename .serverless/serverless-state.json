@@ -178,7 +178,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/aws-node-express-api-project/dev/1724920614944-2024-08-29T08:36:54.944Z/aws-node-express-api-project.zip"
+                "S3Key": "serverless/aws-node-express-api-project/dev/1724940117632-2024-08-29T14:01:57.632Z/aws-node-express-api-project.zip"
               },
               "Handler": "index.handler",
               "Runtime": "nodejs20.x",
@@ -196,14 +196,14 @@
               "ApiLogGroup"
             ]
           },
-          "ApiLambdaVersione6FawMU7F4P8HLCgfDHwuQyrmRkHTwBRAROWjObBI": {
+          "ApiLambdaVersion24O7zRhf1enFmk107VBY7IhELrAbkKgybkEELYbU": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ApiLambdaFunction"
               },
-              "CodeSha256": "fA0R1XES8iTcxZ5kL2bM4V4d8f9P7pqxPI4wAec69nE="
+              "CodeSha256": "tjd77FXVbZZ69avtHiY6N9BBTDnNZbRxi9PlWkyPy1U="
             }
           },
           "ApiGatewayRestApi": {
@@ -228,6 +228,36 @@
                 ]
               },
               "PathPart": "hello",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceHelloDashone": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "hello-One",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceHelloDashtwo": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "hello-Two",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -279,7 +309,99 @@
               "ApiLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1724920571587": {
+          "ApiGatewayMethodHelloDashonePost": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "POST",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceHelloDashone"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": true,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "ApiLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "ApiLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodHelloDashtwoPut": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "PUT",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceHelloDashtwo"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": true,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "ApiLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "ApiLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayDeployment1724940070116": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -288,7 +410,9 @@
               "StageName": "dev"
             },
             "DependsOn": [
-              "ApiGatewayMethodHelloGet"
+              "ApiGatewayMethodHelloGet",
+              "ApiGatewayMethodHelloDashonePost",
+              "ApiGatewayMethodHelloDashtwoPut"
             ]
           },
           "ApiGatewayApiKey1": {
@@ -305,11 +429,11 @@
                 }
               ]
             },
-            "DependsOn": "ApiGatewayDeployment1724920571587"
+            "DependsOn": "ApiGatewayDeployment1724940070116"
           },
           "ApiGatewayUsagePlan": {
             "Type": "AWS::ApiGateway::UsagePlan",
-            "DependsOn": "ApiGatewayDeployment1724920571587",
+            "DependsOn": "ApiGatewayDeployment1724940070116",
             "Properties": {
               "ApiStages": [
                 {
@@ -385,7 +509,7 @@
           "ApiLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ApiLambdaVersione6FawMU7F4P8HLCgfDHwuQyrmRkHTwBRAROWjObBI"
+              "Ref": "ApiLambdaVersion24O7zRhf1enFmk107VBY7IhELrAbkKgybkEELYbU"
             },
             "Export": {
               "Name": "sls-aws-node-express-api-project-dev-ApiLambdaFunctionQualifiedArn"
@@ -516,6 +640,22 @@
               "private": true,
               "integration": "AWS_PROXY"
             }
+          },
+          {
+            "http": {
+              "path": "hello-One",
+              "method": "post",
+              "private": true,
+              "integration": "AWS_PROXY"
+            }
+          },
+          {
+            "http": {
+              "path": "hello-Two",
+              "method": "put",
+              "private": true,
+              "integration": "AWS_PROXY"
+            }
           }
         ],
         "package": {},
@@ -523,7 +663,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "ApiLambdaVersione6FawMU7F4P8HLCgfDHwuQyrmRkHTwBRAROWjObBI"
+        "versionLogicalId": "ApiLambdaVersion24O7zRhf1enFmk107VBY7IhELrAbkKgybkEELYbU"
       }
     },
     "configValidationMode": "warn",
@@ -545,7 +685,7 @@
     "artifact": "D:\\sahil_internship\\node_express\\.serverless\\aws-node-express-api-project.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/aws-node-express-api-project/dev/1724920614944-2024-08-29T08:36:54.944Z",
+    "artifactDirectoryName": "serverless/aws-node-express-api-project/dev/1724940117632-2024-08-29T14:01:57.632Z",
     "artifact": "aws-node-express-api-project.zip"
   }
 }

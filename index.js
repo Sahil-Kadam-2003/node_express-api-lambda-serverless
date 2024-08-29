@@ -1,10 +1,6 @@
-// index.js
-const serverless = require('serverless-http');
-const express = require('express');
-const app = express();
-
-app.get('/hello', (req, res) => {
-  res.send('Hello from AWS Lambda!');
-});
-
-module.exports.handler = serverless(app);
+module.exports.handler = async (event) => {
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ message: 'Hello from api!' }),
+  };
+};
