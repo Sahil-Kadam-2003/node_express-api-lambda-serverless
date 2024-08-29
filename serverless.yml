@@ -6,11 +6,17 @@ provider:
   runtime: nodejs20.x
   region: us-east-1
 
-functions:
+  apiGateway:
+    apiKeys:
+      - myfirstapikey
+
+functions:  
   api:
     handler: index.handler
     name: express-api-function
     events:
-      - httpApi:
+      - http:
           path: /hello
           method: GET
+          private: true
+
