@@ -90,7 +90,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "sahil-nodeexpress-bucket",
-          "S3Key": "serverless/aws-node-express-api-project/dev/1725016530907-2024-08-30T11:15:30.907Z/aws-node-express-api-project.zip"
+          "S3Key": "serverless/aws-node-express-api-project/dev/1725019429254-2024-08-30T12:03:49.254Z/aws-node-express-api-project.zip"
         },
         "Handler": "index.handler",
         "Runtime": "nodejs20.x",
@@ -108,14 +108,14 @@
         "ApiLogGroup"
       ]
     },
-    "ApiLambdaVersionSb7JpgmNhlBOqtMFjc8V5TC5IR2BG6FmJwVEiSnQ1Q": {
+    "ApiLambdaVersion7CafQmpaikBoweIuLlitOxUKwZhofMb8GFRpqMA4w8Y": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ApiLambdaFunction"
         },
-        "CodeSha256": "RIFiNO0efhcULtjvtWa6MSJjc5p44gr6uWCxzih9JIk="
+        "CodeSha256": "4M7vucs1LrqH1yx5SaRzCbOalZKRHVrPZTJINGtb3+Q="
       }
     },
     "ApiGatewayRestApi": {
@@ -313,7 +313,7 @@
         "ApiLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1725016485739": {
+    "ApiGatewayDeployment1725019383637": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -341,11 +341,11 @@
           }
         ]
       },
-      "DependsOn": "ApiGatewayDeployment1725016485739"
+      "DependsOn": "ApiGatewayDeployment1725019383637"
     },
     "ApiGatewayUsagePlan": {
       "Type": "AWS::ApiGateway::UsagePlan",
-      "DependsOn": "ApiGatewayDeployment1725016485739",
+      "DependsOn": "ApiGatewayDeployment1725019383637",
       "Properties": {
         "ApiStages": [
           {
@@ -419,7 +419,7 @@
     "ApiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersionSb7JpgmNhlBOqtMFjc8V5TC5IR2BG6FmJwVEiSnQ1Q"
+        "Ref": "ApiLambdaVersion7CafQmpaikBoweIuLlitOxUKwZhofMb8GFRpqMA4w8Y"
       },
       "Export": {
         "Name": "sls-aws-node-express-api-project-dev-ApiLambdaFunctionQualifiedArn"
