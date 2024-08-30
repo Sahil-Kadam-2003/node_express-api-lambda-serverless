@@ -9,6 +9,8 @@ provider:
   apiGateway:
     apiKeys:
       - myfirstapikey
+  deploymentBucket:
+    name: sahil-nodeexpress-bucket
 
 functions:  
   api:
@@ -22,12 +24,12 @@ functions:
 
       - http:
           path: /hello-One
-          method: POST
+          method: GET
           private: true
 
       - http:
           path: /hello-Two
-          method: PUT
+          method: GET
           private: true
 
 

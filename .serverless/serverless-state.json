@@ -13,81 +13,16 @@
           "myfirstapikey"
         ]
       },
+      "deploymentBucket": "sahil-nodeexpress-bucket",
       "stage": "dev",
       "versionFunctions": true,
+      "deploymentBucketObject": {
+        "name": "sahil-nodeexpress-bucket"
+      },
       "compiledCloudFormationTemplate": {
         "AWSTemplateFormatVersion": "2010-09-09",
         "Description": "The AWS CloudFormation template for this Serverless application",
         "Resources": {
-          "ServerlessDeploymentBucket": {
-            "Type": "AWS::S3::Bucket",
-            "Properties": {
-              "BucketEncryption": {
-                "ServerSideEncryptionConfiguration": [
-                  {
-                    "ServerSideEncryptionByDefault": {
-                      "SSEAlgorithm": "AES256"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "ServerlessDeploymentBucketPolicy": {
-            "Type": "AWS::S3::BucketPolicy",
-            "Properties": {
-              "Bucket": {
-                "Ref": "ServerlessDeploymentBucket"
-              },
-              "PolicyDocument": {
-                "Statement": [
-                  {
-                    "Action": "s3:*",
-                    "Effect": "Deny",
-                    "Principal": "*",
-                    "Resource": [
-                      {
-                        "Fn::Join": [
-                          "",
-                          [
-                            "arn:",
-                            {
-                              "Ref": "AWS::Partition"
-                            },
-                            ":s3:::",
-                            {
-                              "Ref": "ServerlessDeploymentBucket"
-                            },
-                            "/*"
-                          ]
-                        ]
-                      },
-                      {
-                        "Fn::Join": [
-                          "",
-                          [
-                            "arn:",
-                            {
-                              "Ref": "AWS::Partition"
-                            },
-                            ":s3:::",
-                            {
-                              "Ref": "ServerlessDeploymentBucket"
-                            }
-                          ]
-                        ]
-                      }
-                    ],
-                    "Condition": {
-                      "Bool": {
-                        "aws:SecureTransport": false
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          },
           "ApiLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
@@ -175,10 +110,8 @@
             "Type": "AWS::Lambda::Function",
             "Properties": {
               "Code": {
-                "S3Bucket": {
-                  "Ref": "ServerlessDeploymentBucket"
-                },
-                "S3Key": "serverless/aws-node-express-api-project/dev/1724940117632-2024-08-29T14:01:57.632Z/aws-node-express-api-project.zip"
+                "S3Bucket": "sahil-nodeexpress-bucket",
+                "S3Key": "serverless/aws-node-express-api-project/dev/1725016530907-2024-08-30T11:15:30.907Z/aws-node-express-api-project.zip"
               },
               "Handler": "index.handler",
               "Runtime": "nodejs20.x",
@@ -196,14 +129,14 @@
               "ApiLogGroup"
             ]
           },
-          "ApiLambdaVersion24O7zRhf1enFmk107VBY7IhELrAbkKgybkEELYbU": {
+          "ApiLambdaVersionSb7JpgmNhlBOqtMFjc8V5TC5IR2BG6FmJwVEiSnQ1Q": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ApiLambdaFunction"
               },
-              "CodeSha256": "tjd77FXVbZZ69avtHiY6N9BBTDnNZbRxi9PlWkyPy1U="
+              "CodeSha256": "RIFiNO0efhcULtjvtWa6MSJjc5p44gr6uWCxzih9JIk="
             }
           },
           "ApiGatewayRestApi": {
@@ -309,10 +242,10 @@
               "ApiLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayMethodHelloDashonePost": {
+          "ApiGatewayMethodHelloDashoneGet": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
-              "HttpMethod": "POST",
+              "HttpMethod": "GET",
               "RequestParameters": {},
               "ResourceId": {
                 "Ref": "ApiGatewayResourceHelloDashone"
@@ -355,10 +288,10 @@
               "ApiLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayMethodHelloDashtwoPut": {
+          "ApiGatewayMethodHelloDashtwoGet": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
-              "HttpMethod": "PUT",
+              "HttpMethod": "GET",
               "RequestParameters": {},
               "ResourceId": {
                 "Ref": "ApiGatewayResourceHelloDashtwo"
@@ -401,7 +334,7 @@
               "ApiLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1724940070116": {
+          "ApiGatewayDeployment1725016485739": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -411,8 +344,8 @@
             },
             "DependsOn": [
               "ApiGatewayMethodHelloGet",
-              "ApiGatewayMethodHelloDashonePost",
-              "ApiGatewayMethodHelloDashtwoPut"
+              "ApiGatewayMethodHelloDashoneGet",
+              "ApiGatewayMethodHelloDashtwoGet"
             ]
           },
           "ApiGatewayApiKey1": {
@@ -429,11 +362,11 @@
                 }
               ]
             },
-            "DependsOn": "ApiGatewayDeployment1724940070116"
+            "DependsOn": "ApiGatewayDeployment1725016485739"
           },
           "ApiGatewayUsagePlan": {
             "Type": "AWS::ApiGateway::UsagePlan",
-            "DependsOn": "ApiGatewayDeployment1724940070116",
+            "DependsOn": "ApiGatewayDeployment1725016485739",
             "Properties": {
               "ApiStages": [
                 {
@@ -499,9 +432,7 @@
         },
         "Outputs": {
           "ServerlessDeploymentBucketName": {
-            "Value": {
-              "Ref": "ServerlessDeploymentBucket"
-            },
+            "Value": "sahil-nodeexpress-bucket",
             "Export": {
               "Name": "sls-aws-node-express-api-project-dev-ServerlessDeploymentBucketName"
             }
@@ -509,7 +440,7 @@
           "ApiLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ApiLambdaVersion24O7zRhf1enFmk107VBY7IhELrAbkKgybkEELYbU"
+              "Ref": "ApiLambdaVersionSb7JpgmNhlBOqtMFjc8V5TC5IR2BG6FmJwVEiSnQ1Q"
             },
             "Export": {
               "Name": "sls-aws-node-express-api-project-dev-ApiLambdaFunctionQualifiedArn"
@@ -543,88 +474,6 @@
           }
         }
       },
-      "coreCloudFormationTemplate": {
-        "AWSTemplateFormatVersion": "2010-09-09",
-        "Description": "The AWS CloudFormation template for this Serverless application",
-        "Resources": {
-          "ServerlessDeploymentBucket": {
-            "Type": "AWS::S3::Bucket",
-            "Properties": {
-              "BucketEncryption": {
-                "ServerSideEncryptionConfiguration": [
-                  {
-                    "ServerSideEncryptionByDefault": {
-                      "SSEAlgorithm": "AES256"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "ServerlessDeploymentBucketPolicy": {
-            "Type": "AWS::S3::BucketPolicy",
-            "Properties": {
-              "Bucket": {
-                "Ref": "ServerlessDeploymentBucket"
-              },
-              "PolicyDocument": {
-                "Statement": [
-                  {
-                    "Action": "s3:*",
-                    "Effect": "Deny",
-                    "Principal": "*",
-                    "Resource": [
-                      {
-                        "Fn::Join": [
-                          "",
-                          [
-                            "arn:",
-                            {
-                              "Ref": "AWS::Partition"
-                            },
-                            ":s3:::",
-                            {
-                              "Ref": "ServerlessDeploymentBucket"
-                            },
-                            "/*"
-                          ]
-                        ]
-                      },
-                      {
-                        "Fn::Join": [
-                          "",
-                          [
-                            "arn:",
-                            {
-                              "Ref": "AWS::Partition"
-                            },
-                            ":s3:::",
-                            {
-                              "Ref": "ServerlessDeploymentBucket"
-                            }
-                          ]
-                        ]
-                      }
-                    ],
-                    "Condition": {
-                      "Bool": {
-                        "aws:SecureTransport": false
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "Outputs": {
-          "ServerlessDeploymentBucketName": {
-            "Value": {
-              "Ref": "ServerlessDeploymentBucket"
-            }
-          }
-        }
-      },
       "vpc": {}
     },
     "pluginsData": {},
@@ -644,7 +493,7 @@
           {
             "http": {
               "path": "hello-One",
-              "method": "post",
+              "method": "get",
               "private": true,
               "integration": "AWS_PROXY"
             }
@@ -652,7 +501,7 @@
           {
             "http": {
               "path": "hello-Two",
-              "method": "put",
+              "method": "get",
               "private": true,
               "integration": "AWS_PROXY"
             }
@@ -663,7 +512,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "ApiLambdaVersion24O7zRhf1enFmk107VBY7IhELrAbkKgybkEELYbU"
+        "versionLogicalId": "ApiLambdaVersionSb7JpgmNhlBOqtMFjc8V5TC5IR2BG6FmJwVEiSnQ1Q"
       }
     },
     "configValidationMode": "warn",
@@ -685,7 +534,7 @@
     "artifact": "D:\\sahil_internship\\node_express\\.serverless\\aws-node-express-api-project.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/aws-node-express-api-project/dev/1724940117632-2024-08-29T14:01:57.632Z",
+    "artifactDirectoryName": "serverless/aws-node-express-api-project/dev/1725016530907-2024-08-30T11:15:30.907Z",
     "artifact": "aws-node-express-api-project.zip"
   }
 }
